@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package hello;
+
+// empty message
+message Empty {}
+
+message HelloRequest {
+  string senderName = 1;
+}
+
+message HelloResponse {
+  string greeting = 1;
+}
+
+message StreamResponse {
+  int32 counter = 1;
+}
+
+service HelloService {
+  // A simple RPC.
+  rpc Greet(HelloRequest) returns (HelloResponse) {}
+
+  rpc GetStream(Empty) returns (stream StreamResponse) {}
+}
