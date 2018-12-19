@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 	"time"
 
 	helloService "github.com/wzulfikar/grpc-demo/codegen/go/services/hello"
@@ -45,15 +46,15 @@ func (s *server) GetStream(empty *helloService.Empty, stream helloService.HelloS
 	return nil
 }
 
-const port = ":50000"
+var addr = fmt.Sprintf(":%s", os.Getenv("PORT"))
 
 func main() {
-	tcpListen, err := net.Listen("tcp", port)
+	tcpListen, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatal("failed to listen: %v", err)
 	}
 
-	log.Println("grpc listening at port", port)
+	log.Println("grpc listening at", addr)
 
 	// create new gRPC server
 	s := grpc.NewServer()

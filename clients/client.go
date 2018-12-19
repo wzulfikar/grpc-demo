@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 
 	helloService "github.com/wzulfikar/grpc-demo/codegen/go/services/hello"
 
@@ -11,17 +12,17 @@ import (
 	"google.golang.org/grpc"
 )
 
-const addr = "localhost:50000"
+var endpoint = os.Getenv("ENDPOINT")
 
 func main() {
 	// Set up a connection to the gRPC server.
-	conn, err := grpc.Dial(addr, grpc.WithInsecure())
+	conn, err := grpc.Dial(endpoint, grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("couldn't connect to grpc endpoint at %s: %v", addr, err)
+		log.Fatalf("couldn't connect to grpc endpoint at %s: %v", endpoint, err)
 	}
 	defer conn.Close()
 
-	log.Println("connected to grpc endpoint at", addr)
+	log.Println("connected to grpc endpoint at", endpoint)
 
 	// Creates a new CustomerClient
 	client := helloService.NewHelloServiceClient(conn)
